@@ -10,6 +10,7 @@
 	<!-- Bootstrap -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link href="css/page.css" rel="stylesheet">
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -19,58 +20,62 @@
 	<![endif]-->
 </head>
 <body>
-	<h1>Extruder Microstep Calculator</h1>
 
 	<div class="container">
+		<h1>Extruder Microstep Calculator</h1>
+		For instructions scroll to the bottom.
 		<form autocomplete="off" action="javascript:void(0);">
 			<h3>Print Settings</h3>
 			<div class="row">
 				<div class="col-md-2">
 					<label for="line_width">Line width:</label>
 					<div class="input-group">
-						<input type="number" class="form-control" id="line_width" required="required" value="0.4" step="any"/>
+						<input type="number" class="form-control" id="line_width" required="required" value="0.4" min="0" step="any"/>
 						<span class="input-group-addon">mm</span>
 					</div>
 				</div>
 				<div class="col-md-2">
 					<label for="layer_height">Layer height:</label>
 					<div class="input-group">
-						<input type="number" class="form-control" id="layer_height" required="required" value="0.2" step="any"/>
+						<input type="number" class="form-control" id="layer_height" required="required" value="0.2" min="0" step="any"/>
 						<span class="input-group-addon">mm</span>
 					</div>
 				</div>
 				<div class="col-md-2">
 					<label for="flow">Flow rate/Mixing ratio:</label>
 					<div class="input-group">
-						<input type="number" class="form-control" id="flow" required="required" value="100" step="any"/>
+						<input type="number" class="form-control" id="flow" required="required" value="100" min="0" max="100" step="any"/>
 						<span class="input-group-addon">%</span>
 					</div>
 				</div>
 				<div class="col-md-2">
 					<label for="filament_diameter">Filament diameter:</label>
 					<div class="input-group">
-						<input type="number" class="form-control" id="filament_diameter" required="required" value="1.75" step="any"/>
+						<input type="number" class="form-control" id="filament_diameter" required="required" value="1.75" min="0" step="any"/>
 						<span class="input-group-addon">mm</span>
 					</div>
 				</div>
 				<div class="col-md-2">
-					<label for="segement_size">Print move distance:</label>
+					<label for="segment_size">Print move distance:</label>
 					<div class="input-group">
-						<input type="number" class="form-control" id="segement_size" required="required" value="0.2" step="any"/>
+						<input type="number" title="Distance of a very short print move" class="form-control" id="segment_size" required="required" value="0.2" min="0" step="any"/>
 						<span class="input-group-addon">mm</span>
 					</div>
 				</div>
 			</div>
 			<h3>Extruder Settings</h3>
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-3">
 					<label for="extruder_steps">Extruder steps @16x microstepping:</label>
-					<input type="number" class="form-control" id="extruder_steps" required="required" value="415" step="any"/>
+					<div class="input-group">
+						<input type="number" class="form-control" id="extruder_steps" required="required" value="415" min="1" step="any"/>
+						<span class="input-group-addon">steps/mm</span>
+					</div>
 				</div>
 				<div class="col-md-2">
 					<label for="retraction_speed">Retraction speed:</label>
 					<div class="input-group">
-						<input type="number" class="form-control" id="retraction_speed" required="required" value="1800" step="any"/>
+						<input type="number" class="form-control" id="retraction_speed" required="required" value="1800" min="0" step="any"/>
 						<span class="input-group-addon">mm/min</span>
 					</div>
 				</div>
@@ -80,125 +85,166 @@
 				<div class="col-md-2">
 					<label for="step_rate">Maximum step rate:</label>
 					<div class="input-group">
-						<input type="number" class="form-control" id="step_rate" required="required" value="200" step="any"/>
+						<input type="number" class="form-control" id="step_rate" required="required" value="200" min="1" step="any"/>
 						<span class="input-group-addon">kHz</span>
 					</div>
 				</div>
 			</div>
 			<div class="well well-lg">
-				<h3>Calculated Values</h3>
-				<div class="row">
-					<div class="col-md-2">
-						<h4>
-							Extrusion in mm³/mm:
-							<span id="extrusion_in_mm3_mm"></span>
-						</h4>
-					</div>
-					<div class="col-md-2">
-						<h4>
-							Filament area:
-							<span id="filament_area"></span>
-						</h4>
-					</div>
-					<div class="col-md-2">
-						<h4>
-							mm of input for 1mm of output:
-							<span id="input_output_ratio"></span>
-						</h4>
-					</div>
-					<div class="col-md-2">
-						<h4>
-							Extrusion amount for print move:
-							<span id="extrusion_on_segment"></span>
-						</h4>
+				<div id="calc_vals" class="hidden">
+					<h3>Calculated Values</h3>
+					<div class="row">
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Extrusion in mm³/mm</th>
+									<th>Filament area</th>
+									<th>mm of input for 1mm of output</th>
+									<th>Extrusion amount for print move</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><span id="extrusion_in_mm3_mm"/></td>
+									<td><span id="filament_area"/></td>
+									<td><span id="input_output_ratio"/></td>
+									<td><span id="extrusion_on_segment"/></td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
-				<h3>Microstepping Comparison</h3>
-				<div class="row">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>Microstepping</th>
-								<th>Steps/mm</th>
-								<th>mm/Microstep</th>
-								<th>Max Retraction Speed</th>
-								<th>Microsteps on Print Move</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>1</td>
-								<td><span id="steps_mm_1"/></td>
-								<td><span id="mm_ustep_1"/></td>
-								<td><span id="max_retract_1"/></td>
-								<td><span id="usteps_on_segment_1"/></td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td><span id="steps_mm_2"/></td>
-								<td><span id="mm_ustep_2"/></td>
-								<td><span id="max_retract_2"/></td>
-								<td><span id="usteps_on_segment_2"/></td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td><span id="steps_mm_4"/></td>
-								<td><span id="mm_ustep_4"/></td>
-								<td><span id="max_retract_4"/></td>
-								<td><span id="usteps_on_segment_4"/></td>
-							</tr>
-							<tr>
-								<td>8</td>
-								<td><span id="steps_mm_8"/></td>
-								<td><span id="mm_ustep_8"/></td>
-								<td><span id="max_retract_8"/></td>
-								<td><span id="usteps_on_segment_8"/></td>
-							</tr>
-							<tr>
-								<td>16</td>
-								<td><span id="steps_mm_16"/></td>
-								<td><span id="mm_ustep_16"/></td>
-								<td><span id="max_retract_16"/></td>
-								<td><span id="usteps_on_segment_16"/></td>
-							</tr>
-							<tr>
-								<td>32</td>
-								<td><span id="steps_mm_32"/></td>
-								<td><span id="mm_ustep_32"/></td>
-								<td><span id="max_retract_32"/></td>
-								<td><span id="usteps_on_segment_32"/></td>
-							</tr>
-							<tr>
-								<td>64</td>
-								<td><span id="steps_mm_64"/></td>
-								<td><span id="mm_ustep_64"/></td>
-								<td><span id="max_retract_64"/></td>
-								<td><span id="usteps_on_segment_64"/></td>
-							</tr>
-							<tr>
-								<td>128</td>
-								<td><span id="steps_mm_128"/></td>
-								<td><span id="mm_ustep_128"/></td>
-								<td><span id="max_retract_128"/></td>
-								<td><span id="usteps_on_segment_128"/></td>
-							</tr>
-							<tr>
-								<td>256</td>
-								<td><span id="steps_mm_256"/></td>
-								<td><span id="mm_ustep_256"/></td>
-								<td><span id="max_retract_256"/></td>
-								<td><span id="usteps_on_segment_256"/></td>
-							</tr>
-						</tbody>
-					</table>
+				<div id="microstepping_table">
+					<h3>Microstepping Comparison</h3>
+					<div class="row">
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Microstepping</th>
+									<th>Steps/mm</th>
+									<th>mm/Microstep</th>
+									<th>Max Retraction Speed (mm/min)</th>
+									<th>Microsteps on Print Move</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="number">1</td>
+									<td class="number"><span id="steps_mm_1"/></td>
+									<td class="number"><span id="mm_ustep_1"/></td>
+									<td class="number"><span id="max_retract_1"/></td>
+									<td class="number"><span id="usteps_on_segment_1"/></td>
+								</tr>
+								<tr>
+									<td class="number">2</td>
+									<td class="number"><span id="steps_mm_2"/></td>
+									<td class="number"><span id="mm_ustep_2"/></td>
+									<td class="number"><span id="max_retract_2"/></td>
+									<td class="number"><span id="usteps_on_segment_2"/></td>
+								</tr>
+								<tr>
+									<td class="number">4</td>
+									<td class="number"><span id="steps_mm_4"/></td>
+									<td class="number"><span id="mm_ustep_4"/></td>
+									<td class="number"><span id="max_retract_4"/></td>
+									<td class="number"><span id="usteps_on_segment_4"/></td>
+								</tr>
+								<tr>
+									<td class="number">8</td>
+									<td class="number"><span id="steps_mm_8"/></td>
+									<td class="number"><span id="mm_ustep_8"/></td>
+									<td class="number"><span id="max_retract_8"/></td>
+									<td class="number"><span id="usteps_on_segment_8"/></td>
+								</tr>
+								<tr>
+									<td class="number">16</td>
+									<td class="number"><span id="steps_mm_16"/></td>
+									<td class="number"><span id="mm_ustep_16"/></td>
+									<td class="number"><span id="max_retract_16"/></td>
+									<td class="number"><span id="usteps_on_segment_16"/></td>
+								</tr>
+								<tr>
+									<td class="number">32</td>
+									<td class="number"><span id="steps_mm_32"/></td>
+									<td class="number"><span id="mm_ustep_32"/></td>
+									<td class="number"><span id="max_retract_32"/></td>
+									<td class="number"><span id="usteps_on_segment_32"/></td>
+								</tr>
+								<tr>
+									<td class="number">64</td>
+									<td class="number"><span id="steps_mm_64"/></td>
+									<td class="number"><span id="mm_ustep_64"/></td>
+									<td class="number"><span id="max_retract_64"/></td>
+									<td class="number"><span id="usteps_on_segment_64"/></td>
+								</tr>
+								<tr>
+									<td class="number">128</td>
+									<td class="number"><span id="steps_mm_128"/></td>
+									<td class="number"><span id="mm_ustep_128"/></td>
+									<td class="number"><span id="max_retract_128"/></td>
+									<td class="number"><span id="usteps_on_segment_128"/></td>
+								</tr>
+								<tr>
+									<td class="number">256</td>
+									<td class="number"><span id="steps_mm_256"/></td>
+									<td class="number"><span id="mm_ustep_256"/></td>
+									<td class="number"><span id="max_retract_256"/></td>
+									<td class="number"><span id="usteps_on_segment_256"/></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</form>
+		<h2>Instructions</h2>
+		<p>
+			The purpose of this calculator is to find the optimal microstep setting for your extruder. A combination of various
+			factors can lead to the extruder not being advanced even though it should. This can then lead to underextrusion.
+		</p>
+		<p>
+			<ol>
+				<li>Enter your extrusion width</li>
+				<li>Enter your layer height</li>
+				<li>Enter your flow rate - or mixing ratio. Whatever applies.</li>
+				<li>Enter your filament diameter</li>
+				<li>Enter a length for a print move.<br/>
+					This should be less or equal to 0.5mm. You can look at a sliced GCode file and search for very small moves or just take a guess here.
+					Sometimes this value can also be adjusted in the slicer to never be smaller than this (Slic3r has such a setting).<br/>
+					If you are unsure leave the default 0.2 in there.<br/>
+					If you want to be extra safe replace it with 0.1 - smaller values should only be used if found in sliced GCode.</li>
+				<li>Enter your extruder steps/mm for 16x microstepping</li>
+				<li>Enter your retraction speed in mm/min</li>
+				<li>Optional: Adjust your maximum step rate</li>
+			</ol>
+		</p>
+		<p>
+			Check the table down the page. It will give you information on what amount of steps/mm you will have at which microstepping-factor,
+			how many mm of filament will be pushed into the hotend by the extruder with one microstep, how fast you could theoretically retract if the only
+			limit would be the MCU speed and in the last column:
+			how many microsteps are required to extrude the filament for the move selected in step 5 above.
+		</p>
+		<p>
+			Values of the last two colums will be colored. For the maximum retraction speed this will be green if it is greater or equal to the speed
+			you selected in step 7 above.<br/>
+			Microsteps on print move will be marked red if less than 1, green otherwise.
+		</p>
+		<p>
+			You should choose a microstepping-factor with a green values in the last two columns because otherwise for such a move no extrusion might
+			happen at all which would lead to under-extrusion and loss of print quality or the extruder would be loosing steps when retracting because
+			the MCU can not create all the necessary steps.
+		</p>
+		<h4>Notes</h4>
+		<ul>
+			<li>If there is no row with both columns at the right in green you should check if you could reduce either the retracting speed or limit the minimum size of small printing moves.</li>
+			<li>Going to a higher microstepping-factor can lead to loss of torque</li>
+		</ul>
 	</div>
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="js/bootstrap.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="js/main.js"></script>
 </body>
 </html>

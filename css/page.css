@@ -1,0 +1,46 @@
+/* CSS for the main page */
+
+/* Generic tweaks */
+
+body > div.container {
+	padding-top: 51px;
+}
+
+.dropdown-menu > li > a {
+	padding: 10px 20px;
+}
+
+h1 {
+	padding-top: 30px;
+	padding-bottom: 30px;
+	text-align: center;
+}
+
+input[type="number"] {
+	text-align: right;
+    -moz-appearance: textfield;
+}
+
+input:invalid {
+	box-shadow: 0 0 5px 1px red;
+}
+
+.margin-top {
+	margin-top: 15px;
+}
+
+div.well > h3:first-child {
+	margin-top: 0px;
+}
+
+div.well > h3:last-child {
+	margin-bottom: 0px;
+}
+
+div.well {
+	margin-top: 30px;
+}
+
+.number {
+	text-align: right;
+}
