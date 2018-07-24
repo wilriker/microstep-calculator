@@ -19,6 +19,7 @@ function calcUStepsTable() {
 	var extruderSteps16    = parseFloat($('#extruder_steps').val()),
 		stepRate           = parseInt($('#step_rate').val()) * 1000,
 		retractionSpeed    = parseInt($('#retraction_speed').val()),
+		// TODO: This needs to go to a variable and not parsed from hidden contents
 		extrusionOnSegment = parseFloat($('#extrusion_on_segment').text()),
 		segmentSize        = parseFloat($('#segment_size').val()),
 

@@ -23,7 +23,73 @@
 
 	<div class="container">
 		<h1>Extruder Microstep Calculator</h1>
-		For instructions scroll to the bottom.
+		<div class="well">
+			<h4>Instructions
+				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#instructions" aria-expanded="false" aria-controls="instructions">
+					Open/Close
+				</button>
+			</h4>
+			<div class="collapse" id="instructions">
+				<p>
+				The purpose of this calculator is to find the optimal microstep setting for your extruder. A combination of various
+				factors can lead to the extruder not being advanced even though it should. This can then lead to underextrusion.
+				</p>
+				<p>
+				<ol>
+					<li>Enter your extrusion width</li>
+					<li>Enter your layer height</li>
+					<li>Enter your flow rate - or mixing ratio. Whatever applies.</li>
+					<li>Enter your filament diameter</li>
+					<li>Enter a length for a print move.<br/>
+						This should be less or equal to 0.5mm. You can look at a sliced GCode file and search for very small moves or just take a guess here.
+						Sometimes this value can also be adjusted in the slicer to never be smaller than this (Slic3r has such a setting).<br/>
+						If you are unsure leave the default 0.2 in there.<br/>
+						If you want to be extra safe replace it with 0.1 - smaller values should only be used if found in sliced GCode.</li>
+					<li>Enter your extruder steps/mm for 16x microstepping</li>
+					<li>Enter your retraction speed in mm/min</li>
+					<li>Optional: Adjust your maximum step rate</li>
+				</ol>
+				</p>
+				<p>
+				Check the table down the page. It will give you information on what amount of steps/mm you will have at which microstepping-factor,
+				how many mm of filament will be pushed into the hotend by the extruder with one microstep, how fast you could theoretically retract if the only
+				limit would be the MCU speed and in the last column:
+				how many microsteps are required to extrude the filament for the move selected in step 5 above.
+				</p>
+				<p>
+				Values of the last two colums will be colored. For the maximum retraction speed this will be green if it is greater or equal to the speed
+				you selected in step 7 above.<br/>
+				Microsteps on print move will be marked red if less than 1, green otherwise.
+				</p>
+				<p>
+				You should choose a microstepping-factor with a green values in the last two columns because otherwise for such a move no extrusion might
+				happen at all which would lead to under-extrusion and loss of print quality or the extruder would be loosing steps when retracting because
+				the MCU can not create all the necessary steps.
+				</p>
+			</div>
+			<h4>Notes
+				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#notes" aria-expanded="false" aria-controls="notes">
+					Open/Close
+				</button>
+			</h4>
+			<div class="collapse" id="notes">
+				<ul>
+					<li>If there is no row with both columns at the right in green you should check if you could reduce either the retracting speed or limit the minimum size of small printing moves.</li>
+					<li>Going to a higher microstepping-factor can lead to loss of torque. If you encounter problems try a lower microstepping value that still fulfills the requirements (if available)</li>
+					<li>Low torque motors (such as pancake steppers) might not be able to reliably produce very short microsteps</li>
+				</ul>
+			</div>
+			<h4>Issues and Improvements
+				<button class="btn btn-sm btn-light" type="button" data-toggle="collapse" data-target="#issues" aria-expanded="false" aria-controls="issues">
+					Open/Close
+				</button>
+			</h4>
+			<div class="collapse" id="issues">
+				<p>
+				If you have any issues or improvements please report them at <a href="https://forum.duet3d.com/topic/6156/guide-how-to-select-extruder-microstep-setting" target="_blank">the Duet Forum</a>
+				</p>
+			</div>
+		</div>
 		<form autocomplete="off" action="javascript:void(0);">
 			<h3>Print Settings</h3>
 			<div class="row">
@@ -80,7 +146,7 @@
 					</div>
 				</div>
 			</div>
-			<h3>Optional Adjustments</h3>
+			<h4>Optional Adjustments</h4>
 			<div class="row">
 				<div class="col-md-2">
 					<label for="step_rate">Maximum step rate:</label>
@@ -197,49 +263,6 @@
 				</div>
 			</div>
 		</form>
-		<h2>Instructions</h2>
-		<p>
-			The purpose of this calculator is to find the optimal microstep setting for your extruder. A combination of various
-			factors can lead to the extruder not being advanced even though it should. This can then lead to underextrusion.
-		</p>
-		<p>
-			<ol>
-				<li>Enter your extrusion width</li>
-				<li>Enter your layer height</li>
-				<li>Enter your flow rate - or mixing ratio. Whatever applies.</li>
-				<li>Enter your filament diameter</li>
-				<li>Enter a length for a print move.<br/>
-					This should be less or equal to 0.5mm. You can look at a sliced GCode file and search for very small moves or just take a guess here.
-					Sometimes this value can also be adjusted in the slicer to never be smaller than this (Slic3r has such a setting).<br/>
-					If you are unsure leave the default 0.2 in there.<br/>
-					If you want to be extra safe replace it with 0.1 - smaller values should only be used if found in sliced GCode.</li>
-				<li>Enter your extruder steps/mm for 16x microstepping</li>
-				<li>Enter your retraction speed in mm/min</li>
-				<li>Optional: Adjust your maximum step rate</li>
-			</ol>
-		</p>
-		<p>
-			Check the table down the page. It will give you information on what amount of steps/mm you will have at which microstepping-factor,
-			how many mm of filament will be pushed into the hotend by the extruder with one microstep, how fast you could theoretically retract if the only
-			limit would be the MCU speed and in the last column:
-			how many microsteps are required to extrude the filament for the move selected in step 5 above.
-		</p>
-		<p>
-			Values of the last two colums will be colored. For the maximum retraction speed this will be green if it is greater or equal to the speed
-			you selected in step 7 above.<br/>
-			Microsteps on print move will be marked red if less than 1, green otherwise.
-		</p>
-		<p>
-			You should choose a microstepping-factor with a green values in the last two columns because otherwise for such a move no extrusion might
-			happen at all which would lead to under-extrusion and loss of print quality or the extruder would be loosing steps when retracting because
-			the MCU can not create all the necessary steps.
-		</p>
-		<h3>Notes</h3>
-		<ul>
-			<li>If there is no row with both columns at the right in green you should check if you could reduce either the retracting speed or limit the minimum size of small printing moves.</li>
-			<li>Going to a higher microstepping-factor can lead to loss of torque. If you encounter problems try a lower microstepping value that still fulfills the requirements (if available)</li>
-			<li>Low torque motors (such as pancake steppers) might not be able to reliably produce very short microsteps</li>
-		</ul>
 	</div>
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
