@@ -234,10 +234,11 @@
 			happen at all which would lead to under-extrusion and loss of print quality or the extruder would be loosing steps when retracting because
 			the MCU can not create all the necessary steps.
 		</p>
-		<h4>Notes</h4>
+		<h3>Notes</h3>
 		<ul>
 			<li>If there is no row with both columns at the right in green you should check if you could reduce either the retracting speed or limit the minimum size of small printing moves.</li>
 			<li>Going to a higher microstepping-factor can lead to loss of torque. If you encounter problems try a lower microstepping value that still fulfills the requirements (if available)</li>
+			<li>Low torque motors (such as pancake steppers) might not be able to reliably produce very short microsteps</li>
 		</ul>
 	</div>
 

@@ -23,24 +23,15 @@ function calcUStepsTable() {
 		segmentSize        = parseFloat($('#segment_size').val()),
 
 		steps              = [1, 2, 4, 8, 16, 32, 64, 128, 256],
-		extruderSteps      = [
-			extruderSteps16 / 16,
-			extruderSteps16 / 8,
-			extruderSteps16 / 4,
-			extruderSteps16 / 2,
-			extruderSteps16,
-			extruderSteps16 * 2,
-			extruderSteps16 * 4,
-			extruderSteps16 * 8,
-			extruderSteps16 * 16
-		];
+		multiplier         = [1/16, 1/8, 1/4, 1/2, 1, 2, 4, 8 ,16];
 
 	for (var i = 0; i < steps.length; i++) {
-		var mmUstep         = (1 / extruderSteps[i]),
-			maxRetract      = (stepRate / extruderSteps[i]) * 60,
+		var extruderSteps   = (extruderSteps16 * multiplier[i])
+			mmUstep         = (1 / extruderSteps),
+			maxRetract      = (stepRate / extruderSteps) * 60,
 			uStepsOnSegment = (extrusionOnSegment / mmUstep);
 
-		$('#steps_mm_' + steps[i]).text(extruderSteps[i].toFixed(3));
+		$('#steps_mm_' + steps[i]).text(extruderSteps.toFixed(3));
 
 		$('#mm_ustep_' + steps[i]).text(mmUstep.toFixed(5));
 
