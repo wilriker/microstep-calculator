@@ -44,7 +44,10 @@
 						This should be less or equal to 0.5mm. You can look at a sliced GCode file and search for very small moves or just take a guess here.
 						Sometimes this value can also be adjusted in the slicer to never be smaller than this (Slic3r has such a setting).<br/>
 						If you are unsure leave the default 0.2 in there.<br/>
-						If you want to be extra safe replace it with 0.1 - smaller values should only be used if found in sliced GCode.</li>
+						If you want to be extra safe replace it with 0.1 - smaller values should only be used if found in sliced GCode.
+						You can use <a href="https://github.com/wilriker/pmds" target="_blank">Print Move Distance Statistics</a> to find smaller values and
+						their statistical distribution.
+					</li>
 					<li>Enter your extruder steps/mm for 16x microstepping</li>
 					<li>Enter your retraction speed in mm/min</li>
 					<li>Optional: Adjust your maximum step rate</li>
@@ -122,7 +125,7 @@
 					</div>
 				</div>
 				<div class="col-md-2">
-					<label for="segment_size">Print move distance:</label>
+					<label for="segment_size"><a href="https://github.com/wilriker/pmds" target="_blank">Print move distance:</a></label>
 					<div class="input-group">
 						<input type="number" title="Distance of a very short print move" class="form-control" id="segment_size" required="required" value="0.2" min="0" step="any"/>
 						<span class="input-group-addon">mm</span>
