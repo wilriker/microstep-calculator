@@ -19,14 +19,17 @@
 		for (let i = 0; i < steps.length; i++) {
 			let extruderSteps     = (extruderSteps16 * multiplier[i])
 				mmUstep           = (1 / extruderSteps),
-				maxRetract        = (stepRate / extruderSteps) * 60,
-				maxRetractOK      = maxRetract >= retractionSpeed,
+				shortestMove      = (mmUstep / inputOutputRatio),
+				maxRetract        = ((stepRate / extruderSteps) * 60),
+				maxRetractOK      = (maxRetract >= retractionSpeed),
 				uStepsOnSegment   = (extrusionOnSegment / mmUstep),
-				uStepsOnSegmentOK = uStepsOnSegment >= 1;
+				uStepsOnSegmentOK = (uStepsOnSegment >= 1);
 
 			$('#steps_mm_' + steps[i]).text(extruderSteps.toFixed(3));
 
 			$('#mm_ustep_' + steps[i]).text(mmUstep.toFixed(5));
+
+			$('#shortest_move_' + steps[i]).text(shortestMove.toFixed(5));
 
 			$('#max_retract_' + steps[i])
 				.text(maxRetract.toFixed(1))

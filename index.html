@@ -54,10 +54,14 @@
 				</ol>
 				</p>
 				<p>
-				Check the table down the page. It will give you information on what amount of steps/mm you will have at which microstepping-factor,
-				how many mm of filament will be pushed into the hotend by the extruder with one microstep, how fast you could theoretically retract if the only
-				limit would be the MCU speed and in the last column:
-				how many microsteps are required to extrude the filament for the move selected in step 5 above.
+				Check the table down the page. It will give you information on
+				<ul>
+					<li>what amount of steps/mm you will have at which microstepping-factor</li>
+					<li>how many mm of filament will be pushed into the hotend by the extruder with one microstep</li>
+					<li>what is the shortest print move possible with the selected values where at least one microstep is advanced</li>
+					<li>how fast you could theoretically retract if the only limit would be the MCU speed and in the last column</li>
+					<li>how many microsteps are required to extrude the filament for the move selected in step 5 above</li>
+				</ul>
 				</p>
 				<p>
 				Values of the last two colums will be colored. For the maximum retraction speed this will be green if it is greater or equal to the speed
@@ -166,11 +170,12 @@
 						<table class="table table-bordered table-striped">
 							<thead>
 								<tr>
-									<th>Microstepping</th>
-									<th>Steps/mm</th>
-									<th>mm/Microstep</th>
-									<th>Max Retraction Speed (mm/min)</th>
-									<th>Microsteps on Print Move</th>
+									<th title="Microstepping factor">Microstepping</th>
+									<th title="Steps/mm that the extruder has on this microstepping factor">Steps/mm</th>
+									<th title="Movement of filament in mm for one microstep">mm/Microstep</th>
+									<th title="Shortest possible print move based on above extrusion settings at this microstepping factor">Shortest Print Move (mm)</th>
+									<th title="Theoretical maximum retraction speed that the MCU can handle - this will probably be capped by the stepper motor much earlier in most cases">Max Retraction Speed (mm/min)</th>
+									<th title="This many microsteps are required for the print move entered above">Microsteps on Print Move</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -178,6 +183,7 @@
 									<td class="number">1</td>
 									<td class="number"><span id="steps_mm_1"/></td>
 									<td class="number"><span id="mm_ustep_1"/></td>
+									<td class="number"><span id="shortest_move_1"/></td>
 									<td class="number"><span id="max_retract_1"/></td>
 									<td class="number"><span id="usteps_on_segment_1"/></td>
 								</tr>
@@ -185,6 +191,7 @@
 									<td class="number">2</td>
 									<td class="number"><span id="steps_mm_2"/></td>
 									<td class="number"><span id="mm_ustep_2"/></td>
+									<td class="number"><span id="shortest_move_2"/></td>
 									<td class="number"><span id="max_retract_2"/></td>
 									<td class="number"><span id="usteps_on_segment_2"/></td>
 								</tr>
@@ -192,6 +199,7 @@
 									<td class="number">4</td>
 									<td class="number"><span id="steps_mm_4"/></td>
 									<td class="number"><span id="mm_ustep_4"/></td>
+									<td class="number"><span id="shortest_move_4"/></td>
 									<td class="number"><span id="max_retract_4"/></td>
 									<td class="number"><span id="usteps_on_segment_4"/></td>
 								</tr>
@@ -199,6 +207,7 @@
 									<td class="number">8</td>
 									<td class="number"><span id="steps_mm_8"/></td>
 									<td class="number"><span id="mm_ustep_8"/></td>
+									<td class="number"><span id="shortest_move_8"/></td>
 									<td class="number"><span id="max_retract_8"/></td>
 									<td class="number"><span id="usteps_on_segment_8"/></td>
 								</tr>
@@ -206,6 +215,7 @@
 									<td class="number">16</td>
 									<td class="number"><span id="steps_mm_16"/></td>
 									<td class="number"><span id="mm_ustep_16"/></td>
+									<td class="number"><span id="shortest_move_16"/></td>
 									<td class="number"><span id="max_retract_16"/></td>
 									<td class="number"><span id="usteps_on_segment_16"/></td>
 								</tr>
@@ -213,6 +223,7 @@
 									<td class="number">32</td>
 									<td class="number"><span id="steps_mm_32"/></td>
 									<td class="number"><span id="mm_ustep_32"/></td>
+									<td class="number"><span id="shortest_move_32"/></td>
 									<td class="number"><span id="max_retract_32"/></td>
 									<td class="number"><span id="usteps_on_segment_32"/></td>
 								</tr>
@@ -220,6 +231,7 @@
 									<td class="number">64</td>
 									<td class="number"><span id="steps_mm_64"/></td>
 									<td class="number"><span id="mm_ustep_64"/></td>
+									<td class="number"><span id="shortest_move_64"/></td>
 									<td class="number"><span id="max_retract_64"/></td>
 									<td class="number"><span id="usteps_on_segment_64"/></td>
 								</tr>
@@ -227,6 +239,7 @@
 									<td class="number">128</td>
 									<td class="number"><span id="steps_mm_128"/></td>
 									<td class="number"><span id="mm_ustep_128"/></td>
+									<td class="number"><span id="shortest_move_128"/></td>
 									<td class="number"><span id="max_retract_128"/></td>
 									<td class="number"><span id="usteps_on_segment_128"/></td>
 								</tr>
@@ -234,6 +247,7 @@
 									<td class="number">256</td>
 									<td class="number"><span id="steps_mm_256"/></td>
 									<td class="number"><span id="mm_ustep_256"/></td>
+									<td class="number"><span id="shortest_move_256"/></td>
 									<td class="number"><span id="max_retract_256"/></td>
 									<td class="number"><span id="usteps_on_segment_256"/></td>
 								</tr>
