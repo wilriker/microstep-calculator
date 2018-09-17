@@ -69,36 +69,36 @@
 
 	let registerChangeHandlers = function() {
 		$('#line_width').change(function() {
-			lineWidth = parseFloat(this.value);
+			lineWidth = this.valueAsNumber;
 			calcExtrusionInMM3PerMM();
 		});
 		$('#layer_height').change(function() {
-			layerHeight = parseFloat(this.value);
+			layerHeight = this.valueAsNumber;
 			calcExtrusionInMM3PerMM();
 		});
 		$('#flow').change(function() {
-			flowRate = parseFloat(this.value) / 100.0;
+			flowRate = this.valueAsNumber / 100.0;
 			calcExtrusionInMM3PerMM();
 		});
 		$('#filament_diameter').change(function() {
-			let filamentRadius = parseFloat(this.value) / 2.0;
+			let filamentRadius = this.valueAsNumber / 2.0;
 			calcFilamentArea(filamentRadius);
 		});
 		$('#segment_size').change(function() {
-			segmentSize = parseFloat(this.value);
+			segmentSize = this.valueAsNumber;
 			calcExtrusionOnSegment();
 		});
 
 		$('#extruder_steps').change(function() {
-			extruderSteps16 = parseFloat(this.value);
+			extruderSteps16 = this.valueAsNumber;
 			calcUStepsTable();
 		});
 		$('#retraction_speed').change(function() {
-			retractionSpeed = parseInt(this.value);
+			retractionSpeed = this.valueAsNumber;
 			calcUStepsTable();
 		});
 		$('#step_rate').change(function() {
-			stepRate = parseInt(this.value) * 1000;
+			stepRate = this.valueAsNumber * 1000;
 			calcUStepsTable();
 		});
 	};
